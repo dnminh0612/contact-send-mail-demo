@@ -100,6 +100,7 @@ if ($_POST) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Contact</title>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
     <style>
         .form-group {
             margin-bottom: 10px;
@@ -109,7 +110,7 @@ if ($_POST) {
 <body>
 
 
-<form action="/" method="post">
+<form action="/" method="post" id="contact-form">
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" name="name" placeholder="Enter your name" value="<?= $input['name'] ?? '' ?>">
@@ -144,10 +145,21 @@ if ($_POST) {
         <?= $success['message'] ?? '' ?>
     </div>
 
-    <div class="g-recaptcha" data-sitekey="6Ld1PNofAAAAAGCel9rbZ6K6SxWyFSieLsv_l_8W"></div>
+    <div class="g-recaptcha" data-sitekey="6Ld1PNofAAAAAGCel9rbZ6K6SxWyFSieLsv_l_8W" data-callback="recaptchaCallback"></div>
 
     <button type="submit">Send Message</button>
 </form>
-
+<script type="text/javascript">
+    document.getElementById("contact-form").addEventListener("submit",function(evt)
+    {
+        var response = grecaptcha.getResponse();
+        if(response.length == 0)
+        {
+            alert("please verify you are humann!");
+            evt.preventDefault();
+            return false;
+        }
+    });
+</script>
 </body>
 </html>
